@@ -1,0 +1,33 @@
+{{- if .Values.rollout.enable }}
+# Create a rollout resource
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ template "fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+{{- if .Values.appLabel }}
+      app: {{ .Values.appLabel }}
+{{- else }}
+      app: {{ template "fullname" . }}
+{{- end }}
+  # Reference an existing Deployment using workloadRef field
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ template "fullname" . }}
+  strategy:
+    canary:
+    analysis:    
+    #   maxSurge: "25%"
+    #   maxUnavailable: 0
+      steps:
+      - setWeight: 10
+      - pause:
+          duration: 1h
+      - setWeight: 20
+      - pause:
+          duration: 1h
+{{- end }}

@@ -1,0 +1,12 @@
+.project
+.classpath
+.idea
+.cache
+.DS_Store
+*.im?
+target
+work
+bin/
+/config.json
+.settings/
+.stignore
