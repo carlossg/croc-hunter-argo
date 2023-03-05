@@ -58,7 +58,7 @@ $(PKGS): $(GOLINT) $(FGT)
 config.json:
 	echo "{ \"release\": \"$(VERSION)\"," > config.json
 	echo "  \"commit\": \"$(shell git rev-list -1 HEAD)\"," >> config.json
-	echo "  \"powered\": \"Jenkins X\" }" >> config.json
+	echo "  \"powered\": \"Google Cloud Build\" }" >> config.json
 
 
 .PHONY: lint config.json
