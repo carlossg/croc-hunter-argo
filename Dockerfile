@@ -1,14 +1,18 @@
-FROM golang:1.20.1 AS builder
+FROM maven:17-eclipse-temurin AS builder
 COPY .git/ ./src/
-COPY Makefile ./src/
-COPY go.mod ./src/
-COPY croc-hunter.go ./src/
-RUN cd src && make
+COPY pom.xml ./src/
+COPY src ./src/
+RUN cd src && maven package
 
+FROM eclipse-temurin:17
+ENV PORT 8080
+ENV CLASSPATH /opt/lib
 
-FROM scratch
 EXPOSE 8080
-ENTRYPOINT ["/croc-hunter-argo"]
-COPY --from=builder /go/src/config.json /
-COPY --from=builder /go/src/bin/ /
-COPY static/ static/
+
+# NOTE we assume there's only 1 jar in the target dir
+# but at least this means we don't have to guess the name
+# we could do with a better way to know the name - or to always create an app.jar or something
+COPY --from=builder src/target/*-runner.jar /opt/app.jar
+WORKDIR /opt
+CMD ["java", "-jar", "app.jar"]
