@@ -1,8 +1,8 @@
-FROM maven:17-eclipse-temurin AS builder
+FROM maven:3.9.2-eclipse-temurin AS builder
 COPY .git/ ./src/
 COPY pom.xml ./src/
 COPY src ./src/
-RUN cd src && maven package
+RUN cd src && mvn package
 
 FROM eclipse-temurin:17
 ENV PORT 8080
