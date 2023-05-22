@@ -1,18 +1,16 @@
-FROM maven:3.9.2-eclipse-temurin AS builder
-COPY .git/ ./src/
+FROM maven:3.9.2-eclipse-temurin-17 AS builder
 COPY pom.xml ./src/
-COPY src ./src/
+RUN cd src && mvn dependency:resolve
+COPY .git/ ./src/.git
+COPY src ./src/src
 RUN cd src && mvn package
 
 FROM eclipse-temurin:17
 ENV PORT 8080
-ENV CLASSPATH /opt/lib
 
 EXPOSE 8080
 
-# NOTE we assume there's only 1 jar in the target dir
-# but at least this means we don't have to guess the name
-# we could do with a better way to know the name - or to always create an app.jar or something
-COPY --from=builder src/target/*-runner.jar /opt/app.jar
-WORKDIR /opt
-CMD ["java", "-jar", "app.jar"]
+COPY --from=builder /src/target/quarkus-app /opt/quarkus-app
+RUN ls -alFhR /opt/quarkus-app/app/
+WORKDIR /opt/quarkus-app
+CMD ["java", "-jar", "quarkus-run.jar"]
