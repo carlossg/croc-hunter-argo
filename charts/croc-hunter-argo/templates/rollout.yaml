@@ -29,7 +29,4 @@ spec:
         - pause: {duration: 10s}
         - setWeight: 80
         - pause: {duration: 10s}
-      analysis:    
-        maxSurge: "25%"
-        maxUnavailable: 0
 {{- end }}

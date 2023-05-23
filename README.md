@@ -14,7 +14,36 @@ Quarkus comes with a [built-in development mode](https://quarkus.io/guides/maven
 mvn compile quarkus:dev
 ```
 
-`mvn package` will build a native image.
+`mvn package` will do the build.
+
+`docker build .` will create a docker image.
+
+# Deploy using Helm
+
+```bash
+helm upgrade -i croc-hunter ./charts/croc-hunter-argo
+```
+
+Watch the rollout
+
+```bash
+kubectl argo rollouts get rollout croc-hunter --watch
+```
+
+Upgrade the image
+
+```bash
+kubectl argo rollouts set image \
+    croc-hunter \
+    croc-hunter-argo=gcr.io/api-project-642841493686/croc-hunter-argo:v2
+```
+
+Manually promote the canary
+
+```bash
+kubectl argo rollouts promote croc-hunter
+```
+
 
 # Acknowledgements
 
