@@ -1,1 +1,1 @@
-# golang application
+# croc-hunter chart
