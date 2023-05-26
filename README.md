@@ -24,13 +24,29 @@ mvn compile quarkus:dev
 helm upgrade -i croc-hunter ./charts/croc-hunter-argo
 ```
 
-Watch the rollout
+# Ingress
+
+The app is available at http://croc-hunter.argo.csanchez.org/ and http://croc-hunter-preview.argo.csanchez.org/
+
+The domain is set with the helm value `domain`
+
+# Managing the Rollout
+
+## Watch the rollout
 
 ```bash
 kubectl argo rollouts get rollout croc-hunter --watch
 ```
 
-Upgrade the image
+or 
+
+```
+kubectl argo rollouts dashboard
+```
+
+and go to [the dashboard](http://localhost:3100/rollouts)
+
+## Upgrade the image
 
 ```bash
 kubectl argo rollouts set image \
@@ -38,7 +54,7 @@ kubectl argo rollouts set image \
     croc-hunter-argo=gcr.io/api-project-642841493686/croc-hunter-argo:v2
 ```
 
-Manually promote the canary
+## Manually promote the canary
 
 ```bash
 kubectl argo rollouts promote croc-hunter

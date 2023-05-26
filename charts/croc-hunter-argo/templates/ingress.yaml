@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  defaultBackend:
+    service:
+      name: {{ template "fullname" . }}
+      port:
+        number: {{ .Values.service.externalPort }}
+  rules:
+  - host: croc-hunter.{{ .Values.domain }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: {{ template "fullname" . }}
+            port:
+              number: {{ .Values.service.externalPort }}
+  - host: croc-hunter-preview.{{ .Values.domain }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: {{ template "fullname" . }}-preview
+            port:
+              number: {{ .Values.service.externalPort }}
+
+  # argo rollout demo services for other demos
+  - host: canary.{{ .Values.domain }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: canary-demo
+            port:
+              number: 80
+  - host: canary-preview.{{ .Values.domain }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: canary-demo-preview
+            port:
+              number: 80
