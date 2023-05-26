@@ -36,4 +36,13 @@ spec:
         - pause: {duration: 10s}
         - setWeight: 80
         - pause: {duration: 10s}
+{{- if .Values.rollout.analysis }}
+      analysis:
+        templates:
+        - templateName: {{ template "fullname" . }}
+        startingStep: 1 # delay starting analysis run until setWeight: 20%
+        args:
+        - name: service
+          value: {{ template "fullname" . }}-preview
+{{- end }}
 {{- end }}
