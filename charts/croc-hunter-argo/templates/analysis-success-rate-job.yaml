@@ -11,9 +11,9 @@ spec:
       job:
         metadata:
           annotations:
-            service: "{{args.service}}"
+            service: "{{`{{args.service}}`}}"
           labels:
-            service: "{{args.service}}"
+            service: "{{`{{args.service}}`}}"
         spec:
           backoffLimit: 1
           template:
@@ -30,5 +30,5 @@ spec:
                 - -sSf
                 - -o
                 - /dev/null
-                - http://{{args.service}}/data
+                - "{{`http://{{args.service}}/data`}}"
               restartPolicy: Never
