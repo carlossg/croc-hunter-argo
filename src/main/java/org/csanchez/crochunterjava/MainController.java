@@ -66,7 +66,7 @@ public class MainController {
         data.put("commit", commit);
         data.put("powered", powered);
         throw new RuntimeException("This is a test exception");
-        return data;
+        // return data;
     }
 
     @GET
