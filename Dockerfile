@@ -1,6 +1,6 @@
 FROM maven:3.9.2-eclipse-temurin-17 AS builder
 COPY pom.xml ./src/
-RUN cd src && mvn dependency:resolve
+RUN cd src && mvn -B -ntp dependency:resolve
 COPY .git/ ./src/.git
 COPY src ./src/src
 RUN cd src && mvn package -B -ntp -Dmaven.test.skip=true
