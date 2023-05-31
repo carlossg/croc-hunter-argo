@@ -65,7 +65,7 @@ public class MainController {
         data.put("release", release);
         data.put("commit", commit);
         data.put("powered", powered);
-        // throw new RuntimeException("This is a test exception");
+        throw new RuntimeException("This is a test exception");
         return data;
     }
 
