@@ -1,4 +1,4 @@
-FROM maven:3.9.2-eclipse-temurin-17 AS builder
+FROM maven:3.9.8-eclipse-temurin-17 AS builder
 COPY pom.xml ./src/
 RUN cd src && mvn -B -ntp dependency:resolve
 COPY .git/ ./src/.git
