@@ -1,6 +1,7 @@
-FROM maven:3.9.8-eclipse-temurin-17 AS builder
+FROM maven:3.9.8-eclipse-temurin-21 AS builder
 COPY pom.xml ./src/
 RUN cd src && mvn -B -ntp dependency:resolve
+# for buildnumber-maven-plugin
 COPY .git/ ./src/.git
 COPY src ./src/src
 RUN cd src && mvn package -B -ntp -Dmaven.test.skip=true
