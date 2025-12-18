@@ -1,4 +1,4 @@
-FROM maven:3.9.11-eclipse-temurin-21 AS builder
+FROM maven:3.9.12-eclipse-temurin-21 AS builder
 COPY pom.xml ./src/
 RUN cd src && mvn -B -ntp dependency:resolve
 # for buildnumber-maven-plugin
